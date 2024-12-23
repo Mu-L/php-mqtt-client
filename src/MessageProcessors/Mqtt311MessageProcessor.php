@@ -65,11 +65,8 @@ class Mqtt311MessageProcessor extends Mqtt31MessageProcessor
 
     /**
      * Determines if the given message is a PUBLISH message and contains the unicode null character U+0000.
-     *
-     * @param Message $message
-     * @return bool
      */
-    private function isPublishMessageWithNullCharacter(Message $message): bool
+    private function isPublishMessageWithNullCharacter(?Message $message): bool
     {
         return $message !== null
             && $message->getType()->equals(MessageType::PUBLISH())

@@ -28,8 +28,6 @@ trait OffersHooks
 
     /**
      * Needs to be called in order to initialize the trait.
-     *
-     * @return void
      */
     protected function initializeEventHandlers(): void
     {
@@ -59,9 +57,6 @@ trait OffersHooks
      * ```
      *
      * Multiple event handlers can be registered at the same time.
-     *
-     * @param \Closure $callback
-     * @return MqttClient
      */
     public function registerLoopEventHandler(\Closure $callback): MqttClient
     {
@@ -77,11 +72,8 @@ trait OffersHooks
      *
      * This does not affect other registered event handlers. It is possible
      * to unregister all registered event handlers by passing null as callback.
-     *
-     * @param \Closure|null $callback
-     * @return MqttClient
      */
-    public function unregisterLoopEventHandler(\Closure $callback = null): MqttClient
+    public function unregisterLoopEventHandler(?\Closure $callback = null): MqttClient
     {
         if ($callback === null) {
             $this->loopEventHandlers->removeAll($this->loopEventHandlers);
@@ -96,9 +88,6 @@ trait OffersHooks
     /**
      * Runs all registered loop event handlers with the given parameters.
      * Each event handler is executed in a try-catch block to avoid spilling exceptions.
-     *
-     * @param float $elapsedTime
-     * @return void
      */
     private function runLoopEventHandlers(float $elapsedTime): void
     {
@@ -134,9 +123,6 @@ trait OffersHooks
      * ```
      *
      * Multiple event handlers can be registered at the same time.
-     *
-     * @param \Closure $callback
-     * @return MqttClient
      */
     public function registerPublishEventHandler(\Closure $callback): MqttClient
     {
@@ -152,11 +138,8 @@ trait OffersHooks
      *
      * This does not affect other registered event handlers. It is possible
      * to unregister all registered event handlers by passing null as callback.
-     *
-     * @param \Closure|null $callback
-     * @return MqttClient
      */
-    public function unregisterPublishEventHandler(\Closure $callback = null): MqttClient
+    public function unregisterPublishEventHandler(?\Closure $callback = null): MqttClient
     {
         if ($callback === null) {
             $this->publishEventHandlers->removeAll($this->publishEventHandlers);
@@ -171,13 +154,6 @@ trait OffersHooks
     /**
      * Runs all the registered publish event handlers with the given parameters.
      * Each event handler is executed in a try-catch block to avoid spilling exceptions.
-     *
-     * @param string   $topic
-     * @param string   $message
-     * @param int|null $messageId
-     * @param int      $qualityOfService
-     * @param bool     $retain
-     * @return void
      */
     private function runPublishEventHandlers(string $topic, string $message, ?int $messageId, int $qualityOfService, bool $retain): void
     {
@@ -214,9 +190,6 @@ trait OffersHooks
      * ```
      *
      * Multiple event handlers can be registered at the same time.
-     *
-     * @param \Closure $callback
-     * @return MqttClient
      */
     public function registerMessageReceivedEventHandler(\Closure $callback): MqttClient
     {
@@ -231,11 +204,8 @@ trait OffersHooks
      *
      * This does not affect other registered event handlers. It is possible
      * to unregister all registered event handlers by passing null as callback.
-     *
-     * @param \Closure|null $callback
-     * @return MqttClient
      */
-    public function unregisterMessageReceivedEventHandler(\Closure $callback = null): MqttClient
+    public function unregisterMessageReceivedEventHandler(?\Closure $callback = null): MqttClient
     {
         if ($callback === null) {
             $this->messageReceivedEventHandlers->removeAll($this->messageReceivedEventHandlers);
@@ -250,12 +220,6 @@ trait OffersHooks
     /**
      * Runs all the registered message received event handlers with the given parameters.
      * Each event handler is executed in a try-catch block to avoid spilling exceptions.
-     *
-     * @param string $topic
-     * @param string $message
-     * @param int    $qualityOfService
-     * @param bool   $retained
-     * @return void
      */
     private function runMessageReceivedEventHandlers(string $topic, string $message, int $qualityOfService, bool $retained): void
     {
@@ -293,9 +257,6 @@ trait OffersHooks
      * ```
      *
      * Multiple event handlers can be registered at the same time.
-     *
-     * @param \Closure $callback
-     * @return MqttClient
      */
     public function registerConnectedEventHandler(\Closure $callback): MqttClient
     {
@@ -310,11 +271,8 @@ trait OffersHooks
      *
      * This does not affect other registered event handlers. It is possible
      * to unregister all registered event handlers by passing null as callback.
-     *
-     * @param \Closure|null $callback
-     * @return MqttClient
      */
-    public function unregisterConnectedEventHandler(\Closure $callback = null): MqttClient
+    public function unregisterConnectedEventHandler(?\Closure $callback = null): MqttClient
     {
         if ($callback === null) {
             $this->connectedEventHandlers->removeAll($this->connectedEventHandlers);
@@ -329,9 +287,6 @@ trait OffersHooks
     /**
      * Runs all the registered connected event handlers.
      * Each event handler is executed in a try-catch block to avoid spilling exceptions.
-     *
-     * @param bool $isAutoReconnect
-     * @return void
      */
     private function runConnectedEventHandlers(bool $isAutoReconnect): void
     {

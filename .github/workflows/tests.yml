@@ -15,24 +15,17 @@ jobs:
 
     strategy:
       matrix:
-        php-version: ['7.4', '8.0', '8.1']
+        php-version: ['8.1', '8.2', '8.3', '8.4']
         mqtt-broker: ['mosquitto-1.6', 'mosquitto-2.0', 'hivemq', 'emqx', 'rabbitmq']
         include:
-          - php-version: '8.1'
+          - php-version: '8.4'
             mqtt-broker: 'mosquitto-2.0'
             run-sonarqube-analysis: true
 
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-
-      - name: Setup Java 11 (for keytool)
-        uses: actions/setup-java@v3
-        with:
-          distribution: 'zulu'
-          java-version: '11'
-          java-package: 'jre'
 
       - name: Setup PHP ${{ matrix.php-version }}
         uses: shivammathur/setup-php@v2
@@ -50,10 +43,10 @@ jobs:
       - name: Get Composer Cache Directory
         id: composer-cache
         run: |
-          echo "::set-output name=dir::$(composer config cache-files-dir)"
+          echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
 
       - name: Cache Composer dependencies
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ steps.composer-cache.outputs.dir }}
           key: ${{ runner.os }}-composer-${{ hashFiles('**/composer.lock') }}
@@ -140,7 +133,7 @@ jobs:
           sed -i "s|$GITHUB_WORKSPACE|/github/workspace|g" phpunit.report-junit.xml
 
       - name: Run SonarQube analysis
-        uses: sonarsource/sonarcloud-github-action@v1.9
+        uses: sonarsource/sonarqube-scan-action@v4.2.1
         if: matrix.run-sonarqube-analysis
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
